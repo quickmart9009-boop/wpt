@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TrendStocks — Daily Stock Trends, Tips & Reels</title>
+  <meta name="description" content="Daily stock market trends, NIFTY/Sensex updates, beginner-friendly tips, and short video reels. Built for fast loading and mobile-first." />
+  <meta name="keywords" content="stock market, india, nifty 50, sensex, trading tips, investing, reels, shorts, trending stocks" />
+  <meta property="og:title" content="TrendStocks — Daily Stock Trends, Tips & Reels" />
+  <meta property="og:description" content="Catch trending stocks, quick tips, and creator reels in one place." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/og-image.png" />
+  <meta property="og:url" content="https://your-domain.com" />
+  <link rel="icon" href="/favicon.ico" />
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef7ff',
+              100: '#d8ebff',
+              200: '#b0d7ff',
+              300: '#88c3ff',
+              400: '#60aeff',
+              500: '#3999ff',
+              600: '#1a7fe6',
+              700: '#1363b3',
+              800: '#0d4580',
+              900: '#06274d'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Smooth hover */
+    .smooth { transition: all .2s ease-in-out; }
+    .glass { backdrop-filter: blur(10px); background: rgba(255,255,255,.75); }
+    .dark .glass { background: rgba(17,24,39,.65); }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+  <!-- Top Bar -->
+  <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 border-b border-gray-100 dark:border-gray-800 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2 font-bold text-xl">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-brand-600"><path d="M3 3h2v18H3zM19 3h2v18h-2zM7 11h10v2H7z"/></svg>
+        TrendStocks
+      </a>
+      <nav class="hidden md:flex items-center gap-6 text-sm">
+        <a class="hover:text-brand-600 smooth" href="#trends">Trends</a>
+        <a class="hover:text-brand-600 smooth" href="#reels">Reels</a>
+        <a class="hover:text-brand-600 smooth" href="#tips">Tips</a>
+        <a class="hover:text-brand-600 smooth" href="#contact">Contact</a>
+      </nav>
+      <div class="flex items-center gap-2">
+        <button id="themeToggle" class="px-3 py-1.5 rounded-xl border border-gray-200 dark:border-gray-700 text-sm smooth hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Toggle theme">🌙</button>
+        <a href="#subscribe" class="hidden sm:inline-block bg-brand-600 hover:bg-brand-700 text-white px-3 py-1.5 rounded-xl text-sm smooth">Subscribe</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-brand-50 to-white dark:from-gray-900 dark:to-gray-800"></div>
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 py-16 lg:py-24 grid lg:grid-cols-2 gap-10 items-center">
+      <div>
+        <h1 class="text-3xl sm:text-5xl font-extrabold leading-tight">Catch <span class="text-brand-600">Trending Stocks</span> & Creator Reels — Daily.</h1>
+        <p class="mt-4 text-base sm:text-lg text-gray-600 dark:text-gray-300">Quick India-focused market signals, NIFTY/Sensex heatmap, and 30‑sec tips for beginners. Built for speed. No fluff.</p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href="#trends" class="bg-brand-600 hover:bg-brand-700 text-white px-5 py-3 rounded-2xl text-sm sm:text-base smooth">See Today’s Trends</a>
+          <a href="#reels" class="border border-gray-300 dark:border-gray-700 px-5 py-3 rounded-2xl text-sm sm:text-base smooth hover:bg-gray-100 dark:hover:bg-gray-800">Watch Reels</a>
+        </div>
+        <div class="mt-6 text-xs text-gray-500 dark:text-gray-400">⚠️ Disclaimer: Educational only. Not investment advice.</div>
+      </div>
+      <div class="glass rounded-3xl p-6 shadow-xl border border-gray-200 dark:border-gray-800">
+        <div class="grid grid-cols-2 gap-3 text-sm">
+          <div class="p-4 rounded-2xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700">
+            <div class="text-gray-500">NIFTY 50</div>
+            <div class="mt-1 text-2xl font-bold" id="niftyVal">—</div>
+            <div class="mt-1 text-xs text-gray-500" id="niftyChange">Updated daily</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700">
+            <div class="text-gray-500">SENSEX</div>
+            <div class="mt-1 text-2xl font-bold" id="sensexVal">—</div>
+            <div class="mt-1 text-xs text-gray-500" id="sensexChange">Updated daily</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 col-span-2">
+            <div class="flex items-center justify-between">
+              <div class="text-gray-500">Today’s Heat</div>
+              <span class="text-xs px-2 py-1 rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300">Live soon</span>
+            </div>
+            <div class="mt-3 h-24 grid grid-cols-8 gap-1" id="heatGrid">
+              <!-- colored blocks filled by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trends Section -->
+  <section id="trends" class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+    <div class="flex items-end justify-between">
+      <h2 class="text-2xl sm:text-3xl font-bold">Today’s Trends</h2>
+      <a href="#" class="text-sm text-brand-600 hover:underline">View archive</a>
+    </div>
+    <p class="mt-2 text-gray-600 dark:text-gray-300 text-sm">Add your picks daily (top gainers/losers, news highlights). Replace dummy data below.</p>
+
+    <div class="mt-6 grid md:grid-cols-3 gap-4">
+      <!-- Trend Card Template -->
+      <article class="p-5 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 smooth hover:shadow-md">
+        <div class="text-xs uppercase tracking-wide text-gray-500">Top Gainer</div>
+        <h3 class="mt-1 font-semibold">ABC Ltd</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-300">Breakout above ₹245 with volume. Watch for retest.</p>
+        <div class="mt-3 text-sm"><span class="px-2 py-1 bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300 rounded-full">+4.8%</span></div>
+      </article>
+
+      <article class="p-5 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 smooth hover:shadow-md">
+        <div class="text-xs uppercase tracking-wide text-gray-500">Top Loser</div>
+        <h3 class="mt-1 font-semibold">XYZ Finance</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-300">Rejected at resistance ₹1,120. Risk management key.</p>
+        <div class="mt-3 text-sm"><span class="px-2 py-1 bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300 rounded-full">−3.1%</span></div>
+      </article>
+
+      <article class="p-5 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 smooth hover:shadow-md">
+        <div class="text-xs uppercase tracking-wide text-gray-500">News Buzz</div>
+        <h3 class="mt-1 font-semibold">Sector: Power</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-300">DISCOM reforms chatter; watch NTPC, PowerGrid.</p>
+        <div class="mt-3 text-sm text-gray-500">Source: <span class="underline">Add link</span></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Reels Section -->
+  <section id="reels" class="bg-white dark:bg-gray-800/40 border-y border-gray-100 dark:border-gray-800">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+      <div class="flex items-end justify-between">
+        <h2 class="text-2xl sm:text-3xl font-bold">Creator Reels</h2>
+        <a href="#" class="text-sm text-brand-600 hover:underline">Submit your reel</a>
+      </div>
+      <p class="mt-2 text-gray-600 dark:text-gray-300 text-sm">Embed your YouTube Shorts/Instagram Reels links here.</p>
+      <div class="mt-6 grid md:grid-cols-3 gap-4">
+        <!-- YouTube Shorts Embed Example -->
+        <div class="aspect-[9/16] rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800">
+          <iframe class="w-full h-full" src="https://www.youtube.com/embed/2lAe1cqCOXo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="aspect-[9/16] rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800">
+          <iframe class="w-full h-full" src="https://www.youtube.com/embed/oHg5SJYRHA0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="aspect-[9/16] rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800">
+          <iframe class="w-full h-full" src="https://www.youtube.com/embed/kJQP7kiw5Fk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tips Section -->
+  <section id="tips" class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+    <h2 class="text-2xl sm:text-3xl font-bold">Quick Tips (30‑sec)</h2>
+    <div class="mt-6 grid md:grid-cols-3 gap-4 text-sm">
+      <div class="p-5 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800">
+        <h3 class="font-semibold">3 Golden Rules</h3>
+        <ul class="mt-2 list-disc list-inside text-gray-700 dark:text-gray-300">
+          <li>Risk per trade ≤ 1%.</li>
+          <li>Always use stop‑loss.</li>
+          <li>Journal every trade.</li>
+        </ul>
+      </div>
+      <div class="p-5 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800">
+        <h3 class="font-semibold">Beginner Toolkit</h3>
+        <p class="mt-2 text-gray-700 dark:text-gray-300">DEMOs, screeners, and checklists. Replace this text with your tools + links.</p>
+      </div>
+      <div class="p-5 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800">
+        <h3 class="font-semibold">Content Ideas</h3>
+        <ul class="mt-2 list-disc list-inside text-gray-700 dark:text-gray-300">
+          <li>“Today’s 1 chart”</li>
+          <li>“Myth vs Fact”</li>
+          <li>“Backtest in 30 sec”</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Subscribe / Contact -->
+  <section id="subscribe" class="bg-brand-600 text-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12 grid md:grid-cols-2 gap-8 items-center">
+      <div>
+        <h2 class="text-2xl sm:text-3xl font-bold">Get daily trends in your inbox</h2>
+        <p class="mt-2 text-white/90">No spam. Just quick market notes and new reels.</p>
+      </div>
+      <form class="glass rounded-2xl p-2 flex gap-2" onsubmit="event.preventDefault(); subscribe();">
+        <input id="email" type="email" required placeholder="you@example.com" class="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 outline-none" />
+        <button class="px-4 py-3 rounded-xl bg-black/90 hover:bg-black text-white smooth">Subscribe</button>
+      </form>
+      <p id="subMsg" class="md:col-span-2 text-sm text-white/90"></p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact" class="max-w-6xl mx-auto px-4 sm:px-6 py-10 text-sm text-gray-600 dark:text-gray-300">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <div class="font-bold text-lg">TrendStocks</div>
+        <div class="text-xs mt-1">Educational only. Markets are risky. Do your own research.</div>
+      </div>
+      <div class="flex items-center gap-3">
+        <a class="hover:text-brand-600" href="#">YouTube</a>
+        <a class="hover:text-brand-600" href="#">Instagram</a>
+        <a class="hover:text-brand-600" href="#">X</a>
+        <a class="hover:text-brand-600" href="mailto:hello@your-domain.com">Email</a>
+      </div>
+    </div>
+    <div class="mt-6 text-xs">© <span id="year"></span> TrendStocks. All rights reserved.</div>
+  </footer>
+
+  <script>
+    // Theme toggle
+    const btn = document.getElementById('themeToggle');
+    btn.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+    });
+    // Persist theme
+    (function(){
+      const saved = localStorage.getItem('theme');
+      if(saved === 'dark') document.documentElement.classList.add('dark');
+    })();
+
+    // Dummy numbers & heat grid (replace with API later)
+    const nifty = (Math.random()*20000+18000).toFixed(0);
+    const sensex = (Math.random()*70000+60000).toFixed(0);
+    document.getElementById('niftyVal').textContent = nifty;
+    document.getElementById('sensexVal').textContent = sensex;
+
+    const grid = document.getElementById('heatGrid');
+    for(let i=0;i<24;i++){
+      const v = Math.random()*2-1; // -1..1
+      const cell = document.createElement('div');
+      cell.title = v>0 ? `+${(v*2).toFixed(2)}%` : `${(v*2).toFixed(2)}%`;
+      cell.className = 'rounded-md h-6 smooth';
+      cell.style.backgroundColor = v>0 ? `rgba(34,197,94,${0.25+v/2})` : `rgba(239,68,68,${0.25+(-v)/2})`;
+      grid.appendChild(cell);
+    }
+
+    // Subscribe mock
+    function subscribe(){
+      const email = document.getElementById('email').value;
+      const msg = document.getElementById('subMsg');
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+        msg.textContent = 'Please enter a valid email.';
+        return;
+      }
+      msg.textContent = `Thanks! Confirmation link sent to ${email}.`;
+      document.getElementById('email').value='';
+    }
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+  <!-- Schema.org basic org markup -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "TrendStocks",
+    "url": "https://your-domain.com",
+    "sameAs": [
+      "https://youtube.com/yourchannel",
+      "https://instagram.com/yourhandle",
+      "https://x.com/yourhandle"
+    ]
+  }
+  </script>
+</body>
+</html>
